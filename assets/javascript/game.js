@@ -91,17 +91,35 @@ $("#charClick").on("click", function(e) {
 
     if (fighterSelected === false && !lockButtons) {
         console.log(e.target.id);
-        player = (e.target.id).toLowerCase();
-        console.log(player);
+        console.log($(e.target).parent().attr("id"));
+        //this if statement is to allow both the image and the rest
+        //of the div to be clicked on and return the same id
+        if ($.inArray(e.target.id, charLower) == -1) {
+            player = $(e.target).parent().attr("id");
+            console.log(player);
+        }
+        if ($.inArray(e.target.id, charLower) != -1) {
+            player = (e.target.id);
+            console.log(player);
+        }
         fighterSelected = true;
         console.log(fighterSelected);
         determineEnemies();
         $("#characterPick").empty();
-
-    } else if (fighterSelected === true && !lockButtons) {
+    } 
+    else if (fighterSelected === true && !lockButtons) {
         console.log(e.target.id);
-        enemy = (e.target.id).toLowerCase();
-        console.log(enemy);
+        console.log($(e.target).parent().attr("id"));
+        //this if statement is to allow both the image and the rest
+        //of the div to be clicked on and return the same id
+        if ($.inArray(e.target.id, charLower) == -1) {
+            enemy = $(e.target).parent().attr("id");
+            console.log(enemy);
+        }
+        if ($.inArray(e.target.id, charLower) != -1) {
+            enemy = (e.target.id);
+            console.log(enemy);
+        }
         determineEnemy();
         //no more characters can be clicked until these two fight
         lockButtons = true;
