@@ -33,6 +33,7 @@ var fighterSelected = false;
 var enemySelected = false;
 var lockButtons = false;
 var lockCharScore = false;
+var lockEnemyScore = false;
 var player;
 var playerObj;
 var enemy;
@@ -132,7 +133,7 @@ $("#charClick").on("click", function(e) {
 //on the click of the attack button, the attack count goes up and
 //the player attacks the enemy.
 $(".attack").on("click", function() {
-    if (!lockCharScore) {
+    if (!lockCharScore && !lockEnemyScore) {
         attackCount++;
         console.log(attackCount);
         console.log(playerObj.attackPower * attackCount);
@@ -149,7 +150,12 @@ $(".attack").on("click", function() {
             lockButtons = false;
             //character score can't change unless new enemy is chosen
             lockCharScore = true;
-            $("#defSpace").html("Pick a new defender");
+            if( !$.trim( $('#availableEnemies').html() ).length ){
+            	$("#defSpace").html("All enemies defeated! You won!");
+            }
+            else{
+            	$("#defSpace").html("Defeated! Pick a new enemy.");
+            }
         }
 
         playerObj.hp = playerObj.hp - enemyObj.counterAttackPower;
@@ -161,7 +167,8 @@ $(".attack").on("click", function() {
         if (playerObj.hp <= 0) {
             $("#" + player).remove();
             player = "";
-            $("#charSpace").html("Click Refresh to play again!");
+            lockEnemyScore = true;
+            $("#charSpace").html("Your character was defeated! Click Refresh to play again!");
 
         }
 
