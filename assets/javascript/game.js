@@ -34,6 +34,7 @@ var enemySelected = false;
 var lockButtons = false;
 var lockCharScore = false;
 var lockEnemyScore = false;
+var lockAttack = true;
 var player;
 var playerObj;
 var enemy;
@@ -82,12 +83,12 @@ function determineEnemy() {
     }
 }
 
-//when the div charClick is clicked, check to see if fighter is 
+//when the class player is clicked, check to see if fighter is 
 //selected and that character selections are not locked
 //if false, this indicates the first click - selecting the fighter
 //if true, fighter has been selected and we are choosing a single enemy
 //from the available enemies for this round
-$("#charClick").on("click", function(e) {
+$(".player").on("click", function(e) {
     console.log(fighterSelected);
 
     if (fighterSelected === false && !lockButtons) {
@@ -107,8 +108,7 @@ $("#charClick").on("click", function(e) {
         console.log(fighterSelected);
         determineEnemies();
         $("#characterPick").empty();
-    } 
-    else if (fighterSelected === true && !lockButtons) {
+    } else if (fighterSelected === true && !lockButtons) {
         console.log(e.target.id);
         console.log($(e.target).parent().attr("id"));
         //this if statement is to allow both the image and the rest
@@ -126,6 +126,8 @@ $("#charClick").on("click", function(e) {
         lockButtons = true;
         //once enemy is selected, character score can change
         lockCharScore = false;
+        //once enemy is selected, the attack button can start counting/working
+        lockAttack = false;
     }
 
 });
@@ -133,7 +135,7 @@ $("#charClick").on("click", function(e) {
 //on the click of the attack button, the attack count goes up and
 //the player attacks the enemy.
 $(".attack").on("click", function() {
-    if (!lockCharScore && !lockEnemyScore) {
+    if (!lockCharScore && !lockEnemyScore && !lockAttack) {
         attackCount++;
         console.log(attackCount);
         console.log(playerObj.attackPower * attackCount);
@@ -150,11 +152,10 @@ $(".attack").on("click", function() {
             lockButtons = false;
             //character score can't change unless new enemy is chosen
             lockCharScore = true;
-            if( !$.trim( $('#availableEnemies').html() ).length ){
-            	$("#defSpace").html("All enemies defeated! You won!");
-            }
-            else{
-            	$("#defSpace").html("Defeated! Pick a new enemy.");
+            if (!$.trim($('#availableEnemies').html()).length) {
+                $("#defSpace").html("All enemies defeated! You won!");
+            } else {
+                $("#defSpace").html("Defeated! Pick a new enemy.");
             }
         }
 
