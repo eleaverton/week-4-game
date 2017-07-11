@@ -24,8 +24,11 @@ body {
     font-weight: bold;
     color: #cd5e3c;
     text-shadow: 2px 2px 2px #ededed;
-    background-image: url("../images/starkiller.jpg"); 
+    background: url("../images/starkiller.jpg") no-repeat center center fixed; 
     background-size: cover;
+    -webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
  
 }
 
